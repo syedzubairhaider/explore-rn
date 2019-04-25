@@ -20,10 +20,34 @@ const instructions = Platform.select({
 });
 
 // type Props = {};
+
+// const sampleadUnit = 'ca-app-pub-3940256099942544/6300978111'
+const sampleadUnit = 'ca-app-pub-2838402590110071/5155434934'
+// const unitId = 'ca-app-pub-2838402590110071/5155434934';
+
 export default class App extends Component {
 
   async componentDidMount(){
 
+      const id = "ca-app-pub-2838402590110071~3351398674"
+          
+      // firebase.admob().initialize(id)
+      // const advert = firebase.admob().interstitial(sampleadUnit);
+      // const AdRequest = firebase.admob.AdRequest;
+      // const request = new AdRequest()
+      // advert.loadAd(request.build());
+      // advert.on('onAdLoaded', () => {
+        // advert.show();
+      // })
+
+      // setTimeout(() => {
+      //   if (advert.isLoaded()) {
+      //     // advert.show();
+      //     console.log('1advert: ', advert);
+      //   } else {
+      //     console.log('Unable to show interstitial - not loaded yet.: ')
+      //   }
+      // }, 1000)
 
     const channel = new firebase.notifications.Android.Channel('test-channel', 'Test Channel', firebase.notifications.Android.Importance.Max)
   .setDescription('My apps test channel');
@@ -75,7 +99,7 @@ notification.android.addAction(action);
   .android.setChannelId('test-channel')
   .android.setSmallIcon('ic_launcher')
 
-  firebase.notifications().displayNotification(notification)
+  // firebase.notifications().displayNotification(notification)
   }
 
 
@@ -88,11 +112,27 @@ notification.android.addAction(action);
 }
 
   render() {
+
+    const Banner = firebase.admob.Banner;
+    const AdRequest = firebase.admob.AdRequest;
+    const request = new AdRequest()
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
+
+        <Banner
+          unitId={sampleadUnit}
+          size={'SMART_BANNER'}
+          request={request.build()}
+          onAdLoaded={() => {
+            console.log('Advert loaded');
+          }}
+          onAdFailedToLoad={(e)=>alert(e)}
+        />
+
       </View>
     );
   }
